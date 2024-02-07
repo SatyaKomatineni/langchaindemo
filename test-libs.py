@@ -1,5 +1,5 @@
-import fileutils as fileutils
-import baselog as log
+from baselib import fileutils as fileutils
+from baselib import baselog as log
 
 def localTest():
     log.ph1("Starting local test")
