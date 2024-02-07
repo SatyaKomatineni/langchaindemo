@@ -1,5 +1,5 @@
-import baselog as log
-import fileutils as fileutils
+from baselib import baselog as log
+from baselib import fileutils as fileutils
 
 def getHFAPIKey():
     API_Env_key = "HUGGINGFACE_API_KEY"
