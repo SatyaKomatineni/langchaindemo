@@ -1,4 +1,4 @@
-import baselog as log
+from baselib import baselog as log
 
 from typing import Any, List, Mapping, Optional
 
