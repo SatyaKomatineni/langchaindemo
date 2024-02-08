@@ -1,8 +1,12 @@
-from customllm import CustomLLM
+
+from baselib import baselog as log
+from customllms import custom_fb_hf_llm as CustomLLM
 
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 
+
+log.turnOffDebug()
 
 question = "Who won the FIFA World Cup in the year 1994? "
 
@@ -12,7 +16,9 @@ Answer: Let's think step by step."""
 
 prompt = PromptTemplate(template=template, input_variables=["question"])
 
-llm = CustomLLM()
+llm = CustomLLM.FB_HFCustomLLM(n=5,name="FB LLM")
+
 llm_chain = LLMChain(prompt=prompt, llm=llm)
 
-print(llm_chain.run(question))
+reply = llm_chain.invoke({"question":question})
+log.uph("Final answer from LLM", reply)

@@ -2,9 +2,11 @@ from typing import Any, List, Mapping, Optional
 from baselib import aiutils as aiutils
 from baselib import httputils as http
 from baselib import baselog as log
+from baselib import langchain_utils as lutils
 
 from langchain_core.callbacks import CallbackManagerForLLMRun
 from langchain_core.language_models.llms import LLM
+from langchain_core.outputs.llm_result import LLMResult
 
 import requests
 
@@ -40,7 +42,9 @@ class HFCustomLLM(LLM):
     def _talkToTheHand(self, prompt:str):
         params = self._getParameters1()
         response: requests.Response = self._queryModel(prompt,params)
-        return response.json()
+        http.understandResponse(response)
+        text = self._extractGeneratedText(response)
+        return text
 
     def _queryModel(self, prompt, parameters):
         apiKey = aiutils.getHFAPIKey()
@@ -51,7 +55,6 @@ class HFCustomLLM(LLM):
             "parameters": parameters
         }
         response = requests.post(hfEndPointUrl, headers=headers, json=payload)
-        http.understandResponse(response)
         return response
     
     def _extractGeneratedText(self, response: requests.Response):
@@ -85,8 +88,11 @@ class HFCustomLLM(LLM):
         return prompt
     
     def selfTest(self: LLM):
-        answer: str = self.invoke("All roses are read")
-        log.ph("Answer from self test LLM",answer)
+        #answer: str = self.invoke("All roses are read")
+        answer: LLMResult = self.generate(["All roses are read"])
+        lutils.examineTextFrom_HF_LLM_Reply(answer)
+        text = lutils.getSingleText_From_HF_LLM_Reply(answer)
+        log.ph("Answer from self test LLM",text)
 """
 **************************************************
 * EOF_Class: HFCustomLLM

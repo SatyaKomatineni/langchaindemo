@@ -140,7 +140,10 @@ def summarizeDictionary(d: dict):
     pair = next(enumerate(d.items()))
     dprint(f"{pair[1]}")
 
-
+def summarizeLargeText(large_text):
+    validate_not_null_or_empty(large_text)
+    dprint(large_text[:200])
+    
 def testSummarizeDictionary():
     d = {1:"1", 2:"2"}
     summarizeDictionary(d)
