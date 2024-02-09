@@ -20,3 +20,6 @@ def getSampleHFEndPoint():
 
 def getFB_HF_LLM_Endpoint():
     return "https://z8dvl7fzhxxcybd8.eu-west-1.aws.endpoints.huggingface.cloud/"
+
+def getSampleEmbeddingAPI():
+    return "https://c9ejquzh6yum3xqf.us-east-1.aws.endpoints.huggingface.cloud"
