@@ -1,15 +1,16 @@
 
 from abc import ABC, abstractmethod
 from langchain_community.vectorstores import Chroma
+from langchain_core.vectorstores import VectorStore
 
 # Local stuff
-import chromautils as chromautils
+from vectorlib import chromautils as chromautils
 from baselib import baselog as log
 
 class Database(ABC):
 
     @abstractmethod
-    def get(self):
+    def get(self) -> VectorStore:
         pass
 
     @abstractmethod

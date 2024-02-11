@@ -1,24 +1,51 @@
 
 from baselib import baselog as log
-from customllms import custom_fb_hf_llm as CustomLLM
+from customllms.custom_fb_hf_llm import FB_HFCustomLLM
+
 
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
-
+from vectorlib.database import DatabaseRepo
+from vectorlib.database import Database
+from langchain_core.vectorstores import VectorStore
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
 
 log.turnOffDebug()
 
-question = "Who won the FIFA World Cup in the year 1994? "
+"""
+*************************************************
+* Prep the template
+*************************************************
+"""
+template = """Instructions: Use only the following context to answer the question.
 
-template = """Question: {question}
+Context: {context}
+Question: {question}
+"""
+prompt = PromptTemplate(template=template, input_variables=["context", "question"])
 
-Answer: Let's think step by step."""
+"""
+*************************************************
+* question
+*************************************************
+"""
+question = "What is the CHIPS Act?"
 
-prompt = PromptTemplate(template=template, input_variables=["question"])
+"""
+*************************************************
+* get the LLM
+*************************************************
+"""
+llm = FB_HFCustomLLM(n=10,name="FB Custom LLM")
+db: VectorStore = DatabaseRepo.getSOFUDatabase().get()
 
-llm = CustomLLM.FB_HFCustomLLM(n=5,name="FB LLM")
-
-llm_chain = LLMChain(prompt=prompt, llm=llm)
-
-reply = llm_chain.invoke({"question":question})
-log.uph("Final answer from LLM", reply)
+retriever = db.as_retriever(search_kwargs={"k": 1})
+chain = (
+    {"context": retriever, "question": RunnablePassthrough()}
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+output = chain.invoke(question)
+log.uph("Final answer from LLM", output)
