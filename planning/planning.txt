@@ -1,0 +1,14 @@
+2/10/24
+*****************************
+1. Get the template
+2. Ask the question
+3. kick off the chain
+4. Have the retriever get items from vectordb
+6. capture the answer
+7. Use custom embedder
+
+Next steps
+************************
+1. document the dsl sources
+2. lit survey
+3. see the youtube video i saw again
