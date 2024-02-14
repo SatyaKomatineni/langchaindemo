@@ -1,6 +1,8 @@
 
 from baselib import baselog as log
 import os
+import pickle
+
 
 """
 ***********************************
@@ -70,6 +72,31 @@ def getEnvVariable(name, default):
     if value == None:
         return default
     return value
+
+def exists(fullfilePath):
+    return os.path.exists(fullfilePath)
+
+"""
+*************************************************
+* Object state
+*************************************************
+"""
+def getTempDataFilename(filename):
+    tempDataRoot = getTempDataRoot()
+    return pathjoin(tempDataRoot, filename)
+
+def store_object_to_file(obj, filename):
+    filepath = getTempDataFilename(filename)
+    with open(filepath, 'wb') as f:
+        pickle.dump(obj, f)
+    return filepath
+
+def read_object_from_file(filename):
+    filepath = getTempDataFilename(filename)
+    with open(filename, 'rb') as f:
+        obj = pickle.load(f)
+    return obj
+
 
 def localTest():
     log.ph1("Starting local test")

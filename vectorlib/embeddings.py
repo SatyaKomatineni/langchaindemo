@@ -2,11 +2,18 @@ from typing import Any, Dict, List, Optional
 
 import requests
 from langchain_core.embeddings import Embeddings
+from langchain_community.embeddings import (
+    HuggingFaceHubEmbeddings,
+    HuggingFaceInferenceAPIEmbeddings
+)
 
 from baselib import fileutils as fileutils
 from baselib import baselog as log
 from baselib import aiutils as aiutils
 import time
+import getpass
+
+from langchain_core.utils.utils import convert_to_secret_str
 
 """
 ************************************************
@@ -82,7 +89,33 @@ class FB_HF_Embeddings(GenURLEmbedder):
     # wait for 5 seconds
     def _getDelayInSecs_tm(self) -> int:
         return 5
-    
+
+"""
+*************************************************
+* Using 
+* from langchain_community.embeddings import HuggingFaceHubEmbeddings
+*************************************************
+"""    
+
+def x():
+    pass
+
+class FB_HF_InferenceAPIEmbeddings(HuggingFaceInferenceAPIEmbeddings):
+    def __init__(self) :
+        url = aiutils.getSampleEmbeddingAPI()
+        token = aiutils.get_FB_HFAPIKey()
+        apikey = convert_to_secret_str(token)
+        super().__init__(
+            api_url = url,
+            api_key=apikey
+        )
+
+
+def _testHubEmeddings():
+    x = FB_HF_InferenceAPIEmbeddings()
+    r = x.embed_query("hello world")
+    log.ph("Hub Embedding test", r)
+
 """
 ************************************************
 * Test locally
@@ -95,7 +128,8 @@ def testEmbedding():
 
 def localTest():
     log.ph1("Starting local test")
-    testEmbedding()
+    #testEmbedding()
+    _testHubEmeddings()
     log.ph1("End local test")
 
 if __name__ == '__main__':

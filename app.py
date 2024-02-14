@@ -30,14 +30,16 @@ prompt = PromptTemplate(template=template, input_variables=["context", "question
 * question
 *************************************************
 """
-question = "What is the CHIPS Act?"
+#question = "What is the CHIPS Act?"
+question = "Who all are attending the state of the union? can you put their names in a list?"
+#question = "what are the key topics covered in the state of the union?"
 
 """
 *************************************************
 * get the LLM
 *************************************************
 """
-llm = FB_HFCustomLLM(n=10,name="FB Custom LLM")
+llm = DatabaseRepo.get_fbhf_LLM()
 db: VectorStore = DatabaseRepo.getSOFUDatabase().get()
 
 retriever = db.as_retriever(search_kwargs={"k": 1})

@@ -2,10 +2,16 @@
 from abc import ABC, abstractmethod
 from langchain_community.vectorstores import Chroma
 from langchain_core.vectorstores import VectorStore
+from langchain_core.embeddings import Embeddings
+from langchain_core.language_models.llms import LLM
+
 
 # Local stuff
 from vectorlib import chromautils as chromautils
+from customllms.custom_fb_hf_inference_llm import FBHFTextGenInferenceLLM
+
 from baselib import baselog as log
+from vectorlib.embeddings import FB_HF_InferenceAPIEmbeddings
 
 class Database(ABC):
 
@@ -43,6 +49,10 @@ class Database(ABC):
             return
         self._create()
 
+    @abstractmethod
+    def getRelatedEmbeddings() -> Embeddings:
+        pass
+
 class SOFU_Database(Database):
     db: Chroma
     v_name: str = "State of the Union Chroma Database"
@@ -75,6 +85,10 @@ class SOFU_Database(Database):
             return True
         return False
     
+    def getRelatedEmbeddings(self) -> Embeddings:
+        return FB_HF_InferenceAPIEmbeddings()
+
+    
 """
 ****************************************
 * A repo of global objects
@@ -82,11 +96,15 @@ class SOFU_Database(Database):
 """
 class DatabaseRepo:
     class_sofu_db: Database = SOFU_Database()
+    class_fbhf_llm = FBHFTextGenInferenceLLM()
 
     @staticmethod
     def getSOFUDatabase() -> Database:
         return DatabaseRepo.class_sofu_db
     
+    @staticmethod
+    def get_fbhf_LLM() -> LLM:
+        return DatabaseRepo.class_fbhf_llm
 """
 ****************************************
 * Testing
