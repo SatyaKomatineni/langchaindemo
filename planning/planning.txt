@@ -12,3 +12,36 @@ Next steps
 1. document the dsl sources
 2. lit survey
 3. see the youtube video i saw again
+
+2/14
+********************
+Create me 2 python classes
+
+Class1:
+name: Question
+fields: 
+    id
+    brief_description
+    full_description
+    answer (optionally)
+methods:
+    init
+    setAnswer(answer: str)
+
+
+Class2:
+name: QuestionRepo
+fields: 
+    Ordered question dictionary
+        key: Question id
+        value: Question
+methods:
+    init
+    addQuestion(question): to add a question object to the list
+    clear: empty the qestion list
+    getQuestionList(): give a list of questions in the order they were insertd
+    getQuestion(question_id)
+
+Can you also write test function that tests the repo with a few questions?
+is there a better way to do this?
+how could I have specified with fewer details in the future?
