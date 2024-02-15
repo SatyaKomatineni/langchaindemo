@@ -10,6 +10,10 @@ class Question:
         self.full_description = full_description
         self.answer = answer
 
+    @staticmethod
+    def getASampleQuestion():
+         return Question(3, "Brief description 3", "Full description 3", "answer")
+
     def addAnswer(self, answer):
         """Sets the answer for the question."""
         self.answer = answer
@@ -18,11 +22,31 @@ class Question:
 class QuestionRepo:
     def __init__(self):
         self.questions = OrderedDict()
+        self.curid = 1
 
-    def addQuestion(self, question):
+    def addQuestion(self, question: Question):
         """Adds a Question object to the questions dictionary."""
         self.questions[question.id] = question
 
+    def addStringAsQuestion(self, question: str):
+        if not question:
+            log.warn("Empty question. ignoring it")
+            return
+        if self.isADuplicate(question):
+            log.warn("Duplicate question. ignoring it.")
+            return
+        questionObj = Question(self.curid,question,question)
+        self.addQuestion(questionObj)
+        self.curid += 1
+
+    def isADuplicate(self, question:str):
+        qlist = self.getQuestionList()
+        for q in qlist:
+            tq: Question = q
+            if tq.brief_description == question:
+                return True
+        return False
+    
     def clear(self):
         """Empties the questions dictionary."""
         self.questions.clear()
@@ -34,6 +58,23 @@ class QuestionRepo:
     def getQuestion(self, question_id):
         """Returns the question for the given question_id, or None if not found."""
         return self.questions.get(question_id)
+    
+    @staticmethod
+    def getSampleRepo():
+        return _getSampleRepo()
+
+def _getSampleRepo():
+    # Create Question instances
+    question1 = Question(1, "Brief description 1", "Full description 1")
+    question2 = Question(2, "Brief description 2", "Full description 2", "Answer 2")
+    question3 = Question(3, "Brief description 3", "Full description 3")
+    
+    # Create a QuestionRepo instance and add questions
+    repo = QuestionRepo()
+    repo.addQuestion(question1)
+    repo.addQuestion(question2)
+    repo.addQuestion(question3)
+    return repo
 
 def test_question_repo():
     # Create Question instances

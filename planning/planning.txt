@@ -45,3 +45,13 @@ methods:
 Can you also write test function that tests the repo with a few questions?
 is there a better way to do this?
 how could I have specified with fewer details in the future?
+
+"""
+*************************************************
+* wizard ui
+*************************************************
+"""
+Create an abstract class
+name: Wizard
+abstract methods:
+question() returns a pair (question, answer)

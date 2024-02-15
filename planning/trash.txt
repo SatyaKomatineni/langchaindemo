@@ -1,0 +1,27 @@
+#"""
+#*************************************************
+#* Approach 1: streamlit_ui.py
+#*************************************************
+#"""
+def initialize_state1():
+    writeIntro()
+    
+    """Initialize the state variable."""
+    if 'totalResponseText' not in st.session_state:
+        st.session_state.totalResponseText = []
+
+def writeOutput1():
+    # Display the accumulated text
+    st.write("Accumulated Text:")
+    for line in st.session_state.totalResponseText:
+        st.write(line)
+
+def process_input1(input_text):
+    """Append the input text to the totalResponseText state variable."""
+    st.session_state.totalResponseText.append(input_text)
+
+def addToLog1(text: str):
+    st.session_state.totalResponseText.append(text)
+
+def clearLog1():
+    st.session_state.totalResponseText.clear()

@@ -3,16 +3,26 @@ from baselib import aiutils as aiutils
 from baselib import baselog as log
 from baselib import fileutils as fileutils
 
+from ui.questions import QuestionRepo
 class ApplicationState():
+    #Local variables
     log_messages: list[str]
+    questionRepo: QuestionRepo
+
+
+    #class variables
     class_save_filename = "application_state.data"
+
+    #functions
     def __init__(self):
         self.log_messages = []
+        self.questionRepo = QuestionRepo()
 
     def addMessage(self, message: str):
         self.log_messages.append(message)
 
     def clear(self):
+        log.info("Clearing messages from display log")
         self.log_messages.clear()
     
     def save(self):
