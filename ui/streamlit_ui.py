@@ -116,7 +116,7 @@ def creaeSidebar():
 def creaeSidebarQuestionMenu():
     with st.sidebar:
         # Use HTML to create links and Markdown to render them
-        menustr = qutils.getQuestionMenu(appState.questionRepo)
+        menustr = qutils.getQuestionMenu2(appState.questionRepo)
         st.markdown(menustr, unsafe_allow_html=True)
 
 #"""
