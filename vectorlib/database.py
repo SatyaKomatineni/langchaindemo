@@ -89,22 +89,7 @@ class SOFU_Database(Database):
         return FB_HF_InferenceAPIEmbeddings()
 
     
-"""
-****************************************
-* A repo of global objects
-****************************************
-"""
-class DatabaseRepo:
-    class_sofu_db: Database = SOFU_Database()
-    class_fbhf_llm = FBHFTextGenInferenceLLM()
 
-    @staticmethod
-    def getSOFUDatabase() -> Database:
-        return DatabaseRepo.class_sofu_db
-    
-    @staticmethod
-    def get_fbhf_LLM() -> LLM:
-        return DatabaseRepo.class_fbhf_llm
 """
 ****************************************
 * Testing
@@ -115,10 +100,6 @@ def test1():
     db_container.raise_for_status()
     db_container.examine()
 
-def test2():
-    db_container = DatabaseRepo.getSOFUDatabase()
-    db_container.raise_for_status()
-    db_container.examine()
 
 def localTest():
     log.ph1("Starting local test")

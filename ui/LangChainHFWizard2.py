@@ -1,3 +1,12 @@
+"""
+*************************************************
+* About
+*************************************************
+1. Should use HF local transformer for embedding
+2. Should use HF pulic TGI as the text infernce
+3. Uses Chromadb local
+*************************************************
+"""
 
 """
 *************************************************
@@ -35,7 +44,7 @@ from ui.wizard import Wizard
 *************************************************
 log.turnOffDebug()
 """
-class LangChainHFWizard(Wizard):
+class LangChainHFWizard2(Wizard):
     llm: LLM
     prompt: PromptTemplate
     retriever: VectorStoreRetriever
@@ -44,12 +53,12 @@ class LangChainHFWizard(Wizard):
         #get the prompt
         self.prompt = self._getTemplate()
 
-        #get the llm
-        self.llm = DatabaseRepo.get_fbhf_LLM()
+        #get the llm HF Public TGI LLM
+        self.llm = DatabaseRepo.get_hf_LLM()
 
         #vector db stuff
-        db: VectorStore = DatabaseRepo.getSOFUDatabase().get()
-        self.retriever = db.as_retriever(search_kwargs={"k": 1})
+        db: VectorStore = DatabaseRepo.getSOFUDatabase2().get()
+        self.retriever = db.as_retriever(search_kwargs={"k": 3})
         self.chain = _getChain(self.llm, self.prompt, self.retriever)
         
     def _getTemplate(self) -> PromptTemplate:    
@@ -82,7 +91,7 @@ def _getChain(llm: LLM, prompt: PromptTemplate, retriever: VectorStoreRetriever)
 
 
 def test():
-    wizard = LangChainHFWizard()
+    wizard = LangChainHFWizard2()
     q, a = wizard.question("What is the Chips Act?")
     log.ph("Final answer", a)
 

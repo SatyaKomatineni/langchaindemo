@@ -26,6 +26,17 @@ def pathjoin(seg1: str, path: str):
 def getTempDataRoot():
     return os.path.join(getDataRoot(),"tempdata")
 
+def getTempFilepath(filename: str) -> str:
+    return pathjoin(getTempDataRoot(), filename)
+
+def getAppDataRoot():
+    return pathjoin(getDataRoot(), "data")
+
+def getAppDataRootFilename(filename: str) -> str:
+    return pathjoin2(getDataRoot(), "data", filename)
+
+def pathjoin2(seg1: str, *segs):
+    return os.path.join(seg1, *segs)
 
 """
 ***********************************

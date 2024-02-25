@@ -1,0 +1,8 @@
+#
+#*************************************************
+# Application configuration file
+#*************************************************
+#
+api_token_name = "api-token-name"
+embedding_api = "embedding api"
+llm_api = "llm api"
