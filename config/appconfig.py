@@ -44,8 +44,29 @@ def readTOMLConfigFile() -> AppConfig:
     parsed_toml: tomlkit.TOMLDocument = tomlkit.parse(toml_str)
     json_str: str = json.dumps(parsed_toml,indent=4)
     dict = json.loads(json_str)
-    obj = AppConfig(**dict)
+    new_dict = _process_dict_for_aliases(dict)
+    obj = AppConfig(**new_dict)
     return obj
+
+def _process_dict_for_aliases(input_dict):
+    # Create a copy of the dictionary to modify and return
+    modified_dict = input_dict.copy()
+    
+    for key, value in input_dict.items():
+        # Check if the value is a string and starts with "a@"
+        if isinstance(value, str) and value.startswith("a@"):
+            # Extract the rest of the value after "a@"
+            new_key = value[2:]
+            # Check if the extracted value is a key in the original dictionary
+            if new_key in input_dict:
+                # Replace the current value with the looked up value
+                modified_dict[key] = input_dict[new_key]
+            else:
+                # If the new_key is not found, raise an exception
+                raise ValueError(f"Aliased key '{new_key}' not found.")
+    
+    return modified_dict
+
 
 """
 *************************************************
@@ -92,7 +113,7 @@ def _test2():
     _produceASampleConfigfileTOML()
 
 def _test3():
-    config: AppConfig = _readTOMLConfigFile()
+    config: AppConfig = readTOMLConfigFile()
     log.ph("App Token", config.api_token_name)
 
 def _test1():

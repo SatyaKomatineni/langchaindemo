@@ -1,3 +1,16 @@
+
+2/26/24
+**************************
+Write a python function 
+
+1. takes a dictionary as an input
+2. Goes through each key
+3. If the value is a string and starts with "a@"
+    1. extract the rest of the value that is after "a@"
+    2. Use that as a key and locate its value in the origional dictionary
+    3. Replace that looked up value as the new value for the current key
+4. return the modified dictionary
+
 2/10/24
 *****************************
 1. Get the template

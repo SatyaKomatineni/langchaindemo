@@ -13,6 +13,7 @@ from vectorlib.database import (
 from vectorlib.sofu_hf_database import SOFU_HF_Database
 from customllms.custom_fb_hf_inference_llm import FBHFTextGenInferenceLLM
 from customllms.custom_hf_llm import HFCustomLLM
+from customllms.config_hf_inference_llm import ConfigHFLLM
 
 """
 ****************************************
@@ -24,7 +25,8 @@ class DatabaseRepo:
     class_fbhf_llm = FBHFTextGenInferenceLLM()
 
     class_sofu_db2: Database = SOFU_HF_Database()
-    class_hf_llm = HFCustomLLM(n=1, name="HF TGI LLM")
+    #class_hf_llm = HFCustomLLM(n=1, name="HF TGI LLM")
+    class_hf_llm = ConfigHFLLM()
 
     @staticmethod
     def getSOFUDatabase() -> Database:
