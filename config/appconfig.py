@@ -16,10 +16,15 @@ import tomlkit
 from baselib import baselog as log
 from baselib import fileutils as fileutils
 
+class OpenAIConfig(BaseModel):
+    token: str = ""
+    endpoint: str =""
+
 class AppConfig (BaseModel):
     api_token_name: str = ""
     embedding_api: str = ""
     llm_api: str =""
+    openai: OpenAIConfig = OpenAIConfig()
 
 
 """
@@ -115,6 +120,7 @@ def _test2():
 def _test3():
     config: AppConfig = readTOMLConfigFile()
     log.ph("App Token", config.api_token_name)
+    log.ph("OpenAI end point", config.openai.endpoint)
 
 def _test1():
     filename = fileutils.getAppDataRootFilename("sample_config.json")
